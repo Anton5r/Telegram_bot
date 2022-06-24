@@ -74,7 +74,7 @@ async def rasp(message: types.Message):
     print(str(message.from_user.username) + " - " + str(message.from_user.id))
 
     id = str(message.from_user.username) + " - " + str(message.from_user.id)
-
+    os.system(r'python parser_bot.py')
     with open('user_id_list.txt', 'a+') as file:
         file.write(f'Кто запрашивал расписание: {id} - {cur_time} - {cur_date}\n')
         print('Пользователь добавлен\n')

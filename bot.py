@@ -11,12 +11,17 @@ from aiogram.types import CallbackQuery, Message, InlineKeyboardButton, InlineKe
 import asyncio
 from client_kb import *
 import logging
+from pyfiglet import Figlet
 
 # Начала
 os.system(r'clear')
-banner_text = "Бот-aiogram запущен в Альфа-тест\n Версия v1.0\n Путь до файла--/home/anton/Bot-aiogrm/bot.py"
-my_banner = terminal_banner.Banner(banner_text)
-print(my_banner)
+# banner_text = "Бот-aiogram запущен в Альфа-тест\n Версия v1.0\n Путь до файла--/home/anton/Bot-aiogrm/bot.py"
+# my_banner = terminal_banner.Banner(banner_text)
+# print(my_banner)
+
+banner = Figlet(font='asc_____')
+print(banner.renderText('Start bot'))
+
 logging.basicConfig(level=logging.INFO)
 
 cur_date = datetime.now().strftime("%Y-%m-%d")
@@ -36,7 +41,7 @@ conn.commit()
 
 # #Создание клавы
 urlkb = InlineKeyboardMarkup(row_width=1)
-btn1 = InlineKeyboardButton(text="Расписание", url="https://docs.google.com/spreadsheets/d/1xo7gE55zadUAK0bynDbbnqnjzFZvU3aRoIrraptcX78/edit#gid=169506304")
+btn1 = InlineKeyboardButton(text="Расписание", url="https://docs.google.com/spreadsheets/d/1IHbo9mHPpdk1_-23g6iqG97kLzhHPpqtlbAlWKRFIuE/edit#gid=2137778921")
 btn2 = InlineKeyboardButton(text="Консультации", url='https://docs.google.com/spreadsheets/d/11b4EHHMQ4suZ1KafsSeHHa4Bf7kYUQNBB_2UIlt0Xtw/edit?usp=sharing')
 urlkb.add(btn1).add(btn2)
 
@@ -58,7 +63,7 @@ async def start_command(message: types.Message):
     await message.answer_sticker('CAACAgIAAxkBAAEEYepiTIyHQdOjw-H7pYs8qw_HE-MTNwAClwUAAsEYngsruBWrgVvc2yME')
     await bot.send_message(message.from_user.id, text="Привет", reply_markup=kb_client)
     print(str(message.from_user.username) + " - " + str(message.from_user.id))
-    
+
     id = str(message.from_user.username) + " - " + str(message.from_user.id)
 
     with open('user_id_list.txt', 'a+') as file:
@@ -67,14 +72,16 @@ async def start_command(message: types.Message):
 
 @dp.message_handler(commands=['Расписание'])
 async def rasp(message: types.Message):
+    os.system(r'python /home/mrx/Bot-aiogrm/parser.py')
     await bot.send_message(message.from_user.id, text='Держи', reply_markup=urlkb)
     # await bot.send_message(message.from_user.id, text='.', reply_markup=kb_client)
     await bot.send_message(message.from_user.id, 'Если ссылка сверху не работает')
     await message.answer_document(open(file=f'link-{cur_date}.txt', mode='rb'))
+    await bot.send_message(message.from_user.id, 'Обновление расписание делается раз в неделю(В Воскресение)')
     print(str(message.from_user.username) + " - " + str(message.from_user.id))
 
     id = str(message.from_user.username) + " - " + str(message.from_user.id)
-    os.system(r'python parser_bot.py')
+
     with open('user_id_list.txt', 'a+') as file:
         file.write(f'Кто запрашивал расписание: {id} - {cur_time} - {cur_date}\n')
         print('Пользователь добавлен\n')

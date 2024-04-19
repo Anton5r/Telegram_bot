@@ -27,7 +27,7 @@ logging.basicConfig(level=logging.INFO)
 cur_date = datetime.now().strftime("%Y-%m-%d")
 cur_time = datetime.now().time()
 
-ADMIN = 993251034 # ваш user-id. Узнать можно тут @getmyid_bot
+ADMIN =  # ваш user-id. Узнать можно тут @getmyid_bot
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
